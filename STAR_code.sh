@@ -79,3 +79,5 @@ for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample};
 --quantMode TranscriptomeSAM GeneCounts \
 --runThreadN 8 \
 --twopassMode Basic &) ; done
+
+
