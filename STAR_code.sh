@@ -62,10 +62,6 @@ STAR \
 
 
 
-
-
-
-
 ## Length adjusted version
 
 for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample}; (STAR \
