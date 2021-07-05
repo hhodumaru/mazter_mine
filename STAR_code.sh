@@ -38,7 +38,6 @@ for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample};
 --runThreadN 8 \
 --twopassMode Basic &) ; done
 
-STAR --readFilesIn U2OS2-9_1.fastq.gz U2OS2-9_2.fastq.gz --outSAMattrRGline ID:U2OS2 SM:U2OS2 PL:ILLUMINA --genomeDir /Volumes/LaCie/MAZTER_SEQ/Resources/star_index_2.7.3a --genomeLoad NoSharedMemory --outFilterMismatchNoverLmax 0.05 --outFilterMatchNmin 16 --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFileNamePrefix U2OS2-9_relaxed/U2OS2-9_output_relaxed.0619 --readFilesCommand gzcat --outSAMtype BAM Unsorted --outSAMunmapped Within --quantMode TranscriptomeSAM GeneCounts --runThreadN 8 --twopassMode Basic
 
 
 ## single-end mapping
