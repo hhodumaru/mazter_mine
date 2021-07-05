@@ -9,6 +9,7 @@ library(fgsea)
 
 pp <- fgsea::gmtPathways('Resources/h.all.v7.4.symbols.gmt')
 
+
 ## Load data
 d1 = read.delim('Data_distance_30/U2OS2-9_output_single.0622Aligned.out.Rdata_clvEffTable.txt') %>% rename_all( ~ paste0(.x, '_KD'))
 d2 = read.delim('Data_distance_30/U2OSNT2_output_single.0622Aligned.out.Rdata_clvEffTable.txt') %>% rename_all( ~ paste0(.x, '_WT'))
@@ -66,4 +67,23 @@ plotEnrichment(pp[["HALLMARK_MITOTIC_SPINDLE"]], gg1) + labs(title = "HALLMARK_M
 # dfRes$leadingEdge <- vapply(dfRes$leadingEdge, paste, collapse = ", ", character(1L))
 # dfRes = dfRes %>% arrange(padj)
 # write.table(dfRes, paste("Tables/table_fgsea_gmt.h.all_mRNA_abs.0705.txt", sep = "_"), quote=F, sep='\t', row.names = F, col.names = T)
+
+## non-abs value
+gg = d_merged_abs %>% dplyr::select(gene_name, avgClvEff_diff) %>% unique
+gg = gg[order(gg$avgClvEff_diff),]
+gg1 = gg %>% pull(avgClvEff_diff)
+names(gg1) <- gg %>% pull(gene_name) %>% toupper()
+
+df = fgsea(pathways = pp, stats = gg1, scoreType = "pos", eps = 0)
+df = df[order(df$NES), ]
+df$leadingEdge <- vapply(df$leadingEdge, paste, collapse = ", ", character(1L))
+df = df %>% arrange(padj)
+write.table(df, paste("Tables/table_fgsea_gmt.h.all_mRNA_non.abs.0705.txt", sep = "_"), quote=F, sep='\t', row.names = F, col.names = T)
+write_xlsx(df, paste("Tables/table_fgsea_gmt.h.all_mRNA_non.abs.0705.xlsx", sep = "_"), col_names = T)
+
+
+
+
+
+
 
