@@ -52,6 +52,7 @@ STAR \
 --outFilterMatchNmin 16 \
 --outFilterScoreMinOverLread 0.66 \
 --outFilterMatchNminOverLread 0.66 \
+--alignIntronMax 300 \
 --outFileNamePrefix U2OSNT2_single/U2OSNT2_output_single.0622 \
 --readFilesCommand gzcat \
 --outSAMtype BAM Unsorted \
@@ -60,7 +61,10 @@ STAR \
 --runThreadN 8 \
 --twopassMode Basic
 
-### single -> better mapability ? modify bam2readends PE option : index 50.49.75
+
+
+
+
 
 
 ## Length adjusted version
