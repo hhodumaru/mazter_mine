@@ -28,7 +28,7 @@ for f in fs_R1:
 
 for f in fs_R2:
 	sid = f.split('/')[-1]
-	sid_in = sid_in                        # Read2 trimming input : U20XXX_2.fastq.gz
+	sid_in = sid                      # Read2 trimming input : U20XXX_2.fastq.gz
 	sid_out1 = 'T.trimmed_' + sid_in       # Read2 first trimming : T.trimmed_U20XXX_2.fastq.gz
 	sid_out2 = 'adapter.' + sid_out1       # Read2 Second trimming : adapter.T.trimmed_U20XXX_2.fastq.gz
 	sid_out3 = 'complete_' + sid_out2      # Read2 final trimming : complete_adapter.T.trimmed_U20XXX_2.fastq.gz

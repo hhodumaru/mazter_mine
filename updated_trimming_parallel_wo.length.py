@@ -4,27 +4,7 @@ from multiprocessing import Pool, cpu_count
 import time
 
 
-fs_R1 = glob.glob("Volumes/LaCie/MAZTER_SEQ/???/*1.fastq.gz")
-fs_R2 = glob.glob("Volumes/LaCie/MAZTER_SEQ/???/*2.fastq.gz")
-
-
-for f in fs_R1:
-	sid = f.split('/')[-1]
-	sid_in = sid					# Read1 trimming input : U20XXX_1.fastq.gz
-	sid_out = 'trimmed_wo_' + sid_in	# Read1 trimming output : trimmed_wo_U20XXX_1.fastq.gz
-	cmd = ' '.join(['~/.local/bin/cutadapt', '-u 3 -a "A{100}"', '-o', +sid_out, +sid_in])
-
-	print ("\n\n*****************************************************************")
-    print (sid)
-    print ("*****************************************************************\n\n")
-    time.sleep(1)
-
-    print(cmd)
-    print("\n")
-    time.sleep(1)
-
-    os.system(cmd)
-
+fs_R2 = glob.glob("/data2/MAZTER_SEQ/Data/*2.fastq.gz")
 
 for f in fs_R2:
 	sid = f.split('/')[-1]
