@@ -27,9 +27,8 @@ for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample};
 --genomeLoad NoSharedMemory \
 --outFilterMismatchNoverLmax 0.05 \
 --outFilterMatchNmin 16 \
---outFilterScoreMinOverLread 0 \
---outFilterMatchNminOverLread 0 \
--–alignIntronMax 1 \
+--outFilterScoreMinOverLread 0.66 \
+--outFilterMatchNminOverLread 0.66 \
 --outFileNamePrefix ${sample}/${sample}_output_dobin.ver \
 --readFilesCommand gzcat \
 --outSAMtype BAM Unsorted \
@@ -78,5 +77,31 @@ for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample};
 --quantMode TranscriptomeSAM GeneCounts \
 --runThreadN 8 \
 --twopassMode Basic &) ; done
+
+
+
+## hg19
+
+## single-end mapping
+
+for sample in `cd ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample}; 
+
+STAR \
+--readFilesIn ~/Dropbox/MAZTER_SEQ/Data/trimmed_data/U2OS2-9_1.fastq.gz \
+--outSAMattrRGline ID:U2OS2-9 SM:U2OS2-9 PL:ILLUMINA \
+--genomeDir ~/Dropbox/Resources/star_index_2.7.3a_hg19 \
+--genomeLoad NoSharedMemory \
+--outFilterMismatchNoverLmax 0.05 \
+--outFilterMatchNmin 16 \
+--outFilterScoreMinOverLread 0.66 \
+--outFilterMatchNminOverLread 0.66 \
+--alignIntronMax 300 \
+--outFileNamePrefix ~/Dropbox/MAZTER_SEQ/Results_hg19/U2OS2-9/U2OS2-9_output_single.0807 \
+--readFilesCommand gzcat \
+--outSAMtype BAM Unsorted \
+--outSAMunmapped Within \
+--quantMode TranscriptomeSAM GeneCounts \
+--runThreadN 8 \
+--twopassMode Basic
 
 
