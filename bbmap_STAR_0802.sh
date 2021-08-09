@@ -30,6 +30,20 @@ echo $sample
 cat bbmerged_${sample}.fastq R1_bbunmerged_${sample}.fastq | gzip > merged_with_R1_${sample}.fastq.gz &) # 명령2
 done
 
+for sample in `ls | grep U | awk -F '_' '{print $1}' | sort | uniq`
+do
+mkdir ${sample}
+echo $sample
+(../bbmap/bbmerge.sh \
+    in1=${sample}_1.fastq.gz \
+    in2=${sample}_2.fastq.gz \
+    out=bbmerged_${sample}.fastq.gz \
+    outu1=R1_bbunmerged_${sample}.fastq.gz \
+    outu2=R2_bbunmerged_${sample}.fastq.gz &) # 명령2
+done
+
+
+
 
 # STAR alignment 
 # (written for only length cut data. Copy & modify when execute this code for no length cut data)
@@ -60,18 +74,18 @@ STAR --readFilesIn R1_bbunmerged.trimmed_U2OXXX.fastq R2_bbunmerged.trimmed_U2OX
 for sample in `ls | grep 'trimmed' | awk -F '_' '{print $2}' | sort | uniq`
 do
 echo $sample
-(STAR --readFilesIn bbmerged_${sample}.fastq --outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
+(STAR-2.7.3a/source/STAR --readFilesIn bbmerged_${sample}.fastq --outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
  --genomeDir /data2/Resources/star_index_2.7.3a --genomeLoad NoSharedMemory \
  --outFilterMismatchNoverLmax 0.05 --outFilterMatchNmin 16 --outFilterScoreMinOverLread 0.66 \
  --outFilterMatchNminOverLread 0.66 --alignIntronMax 300 --alignMatesGapMax 1000 --outFileNamePrefix ${sample}/bbmerged_${sample} \
  --outSAMtype BAM Unsorted --outSAMunmapped Within --quantMode TranscriptomeSAM GeneCounts --runThreadN 4 --twopassMode Basic && \
- STAR --readFilesIn merged_with_R1_${sample}.fastq.gz --outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
+ STAR-2.7.3a/source/STAR --readFilesIn merged_with_R1_${sample}.fastq.gz --outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
  --genomeDir /data2/Resources/star_index_2.7.3a --genomeLoad NoSharedMemory \
  --outFilterMismatchNoverLmax 0.05 --outFilterMatchNmin 16 --outFilterScoreMinOverLread 0.66 \
  --outFilterMatchNminOverLread 0.66 --alignIntronMax 300 --alignMatesGapMax 1000 --outFileNamePrefix ${sample}/merged_with_R1_${sample} \
  --readFilesCommand gzcat --outSAMtype BAM Unsorted --outSAMunmapped Within --quantMode TranscriptomeSAM GeneCounts --runThreadN 4 --twopassMode Basic && \
- STAR --readFilesIn R1_bbunmerged_${sample}.fastq R2_bbunmerged_${sample}.fastq --outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
+ STAR-2.7.3a/source/STAR --readFilesIn R1_bbunmerged_${sample}.fastq R2_bbunmerged_${sample}.fastq --outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
  --genomeDir /data2/Resources/star_index_2.7.3a --genomeLoad NoSharedMemory \
  --alignIntronMax 300 --alignMatesGapMax 1000 --outFileNamePrefix ${sample}/bbunmerged.paired_${sample} \
- --outSAMtype BAM Unsorted --outSAMunmapped Within --quantMode TranscriptomeSAM GeneCounts --runThreadN 4 --twopassMode Basic
-) 
+ --outSAMtype BAM Unsorted --outSAMunmapped Within --quantMode TranscriptomeSAM GeneCounts --runThreadN 4 --twopassMode Basic &)
+ done 
