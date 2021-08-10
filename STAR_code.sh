@@ -80,28 +80,25 @@ for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample};
 
 
 
-## hg19
+## hg19 single-end mapping
+## Parallel - should be executed in deep learning server.
 
-## single-end mapping
-
-for sample in `cd ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample}; 
-
-STAR \
---readFilesIn ~/Dropbox/MAZTER_SEQ/Data/trimmed_data/U2OS2-9_1.fastq.gz \
---outSAMattrRGline ID:U2OS2-9 SM:U2OS2-9 PL:ILLUMINA \
---genomeDir ~/Dropbox/Resources/star_index_2.7.3a_hg19 \
+for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample}; (STAR \
+--readFilesIn /data2/trimmed_data/${sample}_1.fastq.gz \
+--outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
+--genomeDir /data2/Resources/star_index_2.7.3a_hg19 \
 --genomeLoad NoSharedMemory \
 --outFilterMismatchNoverLmax 0.05 \
 --outFilterMatchNmin 16 \
 --outFilterScoreMinOverLread 0.66 \
 --outFilterMatchNminOverLread 0.66 \
 --alignIntronMax 300 \
---outFileNamePrefix ~/Dropbox/MAZTER_SEQ/Results_hg19/U2OS2-9/U2OS2-9_output_single.0807 \
+--outFileNamePrefix /data2/trimmed_data/${sample}/${sample}_output_single_hg19.0810 \
 --readFilesCommand gzcat \
 --outSAMtype BAM Unsorted \
 --outSAMunmapped Within \
 --quantMode TranscriptomeSAM GeneCounts \
 --runThreadN 8 \
---twopassMode Basic
+--twopassMode Basic &) ; done
 
 
