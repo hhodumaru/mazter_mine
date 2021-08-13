@@ -84,7 +84,7 @@ for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample};
 ## Parallel - should be executed in deep learning server.
 
 for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample}; (STAR \
---readFilesIn /data2/trimmed_data/${sample}_1.fastq.gz \
+--readFilesIn ${sample}_1.fastq.gz \
 --outSAMattrRGline ID:${sample} SM:${sample} PL:ILLUMINA \
 --genomeDir /data2/Resources/star_index_2.7.3a_hg19 \
 --genomeLoad NoSharedMemory \
@@ -93,8 +93,8 @@ for sample in `ls | grep U | awk -F'_' '{print $1}' | uniq`; do mkdir ${sample};
 --outFilterScoreMinOverLread 0.66 \
 --outFilterMatchNminOverLread 0.66 \
 --alignIntronMax 300 \
---outFileNamePrefix /data2/trimmed_data/${sample}/${sample}_output_single_hg19.0810 \
---readFilesCommand gzcat \
+--outFileNamePrefix ${sample}/${sample}_output_single_hg19.0810 \
+--readFilesCommand zcat \
 --outSAMtype BAM Unsorted \
 --outSAMunmapped Within \
 --quantMode TranscriptomeSAM GeneCounts \
